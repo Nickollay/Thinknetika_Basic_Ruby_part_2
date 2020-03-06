@@ -5,23 +5,26 @@ month = gets.chomp[0..2].to_sym
 print 'Enter year: '
 year = gets.chomp.to_i
 
-date_ordinal = date
-months = {jan: 31, feb: 28, mar: 31, apr: 30, may: 31, jun: 30, jul: 31, aug: 31, sep: 30, oct: 31, nov: 30, dec: 31}
-months.each do |m, n|
-  if m == month
-    break
-  else
-    date_ordinal += n
-  end
-end
+months = {
+    jan: 31,
+    feb: 28,
+    mar: 31,
+    apr: 30,
+    may: 31,
+    jun: 30,
+    jul: 31,
+    aug: 31,
+    sep: 30,
+    oct: 31,
+    nov: 30,
+    dec: 31
+}
+months[:feb] = 29 if year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
+date_ordinal = months.values.take(months.keys.find_index(month)).sum + date
 
-if (year % 400) == 0
-  puts "It's a leap year. Ordinal number of date: #{date_ordinal + 1}."
-elsif (year % 100) == 0
-  puts "It's not a leap year. Ordinal number of date: #{date_ordinal}."
-elsif (year % 4) == 0
-  puts "It's a leap year. Ordinal number of date: #{date_ordinal + 1}."
+if months[:feb] == 28
+  puts "It's not a leap year."
 else
-  puts "It's not a leap year. Ordinal number of date: #{date_ordinal}."
+  puts "It's a leap year."
 end
-
+puts "Ordinal number of date: #{date_ordinal}."
